@@ -1,0 +1,289 @@
+1
+numero = int(input("Digite um número inteiro: "))
+
+if numero % 2 == 0:
+    print("O número é par.")
+else:
+    print("O número é ímpar.")
+
+
+
+
+2
+numero = int(input("Digite um número: "))
+
+if numero > 0:
+    print("O número é positivo.")
+elif numero < 0:
+    print("O número é negativo.")
+else:
+    print("O número é zero.")
+
+
+
+
+3
+letra = input("Digite uma letra: ").lower()  # .lower() para garantir que a letra seja em minúsculo
+
+if letra in 'aeiou':
+    print(f"A letra '{letra}' é uma vogal.")
+else:
+    print(f"A letra '{letra}' é uma consoante.")
+
+
+
+
+4
+preco_item = 5.00
+max_itens = 100
+
+quantidade_itens = int(input("Digite a quantidade de itens (até 100): "))
+regiao = int(input("Digite o código da região (1 - Norte, 2 - Nordeste, 3 - Centro-Oeste, 4 - Sudeste, 5 - Sul): "))
+
+if quantidade_itens < 1 or quantidade_itens > max_itens:
+    print("Quantidade inválida! O número de itens deve ser entre 1 e 100.")
+else:
+    total_sem_frete = quantidade_itens * preco_item
+
+    if regiao == 1:  # Norte
+        frete = total_sem_frete * 0.10
+        regiao_nome = "Norte"
+    elif regiao == 2:  # Nordeste
+        frete = total_sem_frete * 0.08
+        regiao_nome = "Nordeste"
+    elif regiao == 3:  # Centro-Oeste
+        frete = total_sem_frete * 0.12
+        regiao_nome = "Centro-Oeste"
+    elif regiao == 4:  # Sudeste
+        frete = total_sem_frete * 0.15
+        regiao_nome = "Sudeste"
+    elif regiao == 5:  # Sul
+        frete = total_sem_frete * 0.11
+        regiao_nome = "Sul"
+    else:
+        print("Região inválida! Escolha um número de 1 a 5.")
+        exit()
+
+    total_com_frete = total_sem_frete + frete
+
+    print(f"\nRegião de entrega: {regiao_nome}")
+    print(f"Total sem frete: R${total_sem_frete:.2f}")
+    print(f"Valor do frete: R${frete:.2f}")
+    print(f"Total a pagar (com frete): R${total_com_frete:.2f}")
+
+
+
+
+5
+situacao_civil = input("Informe sua situação civil (Solteiro, Casado, Divorciado, Viúvo): ").strip().lower()
+
+if situacao_civil == "solteiro":
+    idade = int(input("Informe sua idade: "))
+    print(f"Sua situação civil é Solteiro(a). Sua idade é {idade} anos.")
+
+elif situacao_civil == "casado":
+    sexo = input("Informe seu sexo (Masculino/Feminino): ").strip().lower()
+    conjuge = input("Informe o nome do seu cônjuge: ").strip()
+    print(f"Sua situação civil é Casado(a). Sexo: {sexo.capitalize()}. Nome do cônjuge: {conjuge}.")
+
+elif situacao_civil == "divorciado":
+    filhos = int(input("Informe a quantidade de filhos (0 caso não tenha): "))
+    if filhos > 0:
+        idade_mais_velho = int(input("Informe a idade do filho mais velho: "))
+        print(f"Sua situação civil é Divorciado(a). Você tem {filhos} filhos e o mais velho tem {idade_mais_velho} anos.")
+    else:
+        print(f"Sua situação civil é Divorciado(a). Você não tem filhos.")
+
+elif situacao_civil == "viúvo":
+    cidade = input("Informe a cidade onde você vive: ").strip()
+    salario = float(input("Informe o seu salário atual: R$ "))
+    print(f"Sua situação civil é Viúvo(a). Você vive em {cidade} e seu salário atual é R$ {salario:.2f}.")
+
+else:
+    print("Situação civil inválida! Por favor, informe uma opção válida: Solteiro, Casado, Divorciado ou Viúvo.")
+
+
+
+
+6
+for i in range(1, 501):
+    if i % 5 == 0:
+        print(i)
+
+
+
+
+7
+soma = 0
+
+for i in range(10):
+    numero = float(input(f"Digite o {i+1}º número: "))
+    metade = numero / 2
+    soma += numero  # Soma o número para calcular a média
+    print(f"A metade de {numero} é {metade}")
+
+media = soma / 10
+
+print(f"A média de todos os números é {media:.2f}")
+
+
+
+
+8
+inicio = int(input("Digite o valor inicial em polegadas: "))
+fim = int(input("Digite o valor final em polegadas: "))
+
+print("Polegadas | Centímetros")
+print("------------------------")
+
+for polegada in range(inicio, fim + 1):
+    centimetros = polegada * 2.54  # 1 polegada = 2,54 cm
+    print(f"{polegada:10} | {centimetros:12.2f}")
+
+
+
+
+9
+num_pessoas = 20
+
+for i in range(num_pessoas):
+    nome = input(f"Digite o nome da {i+1}ª pessoa: ")
+    idade = int(input(f"Digite a idade de {nome}: "))
+    sexo = input(f"Digite o sexo de {nome} (M/F): ").strip().lower()
+
+    if sexo == 'm' and idade > 21:
+        print(f"{nome} é do sexo masculino e tem mais de 21 anos.")
+
+
+
+
+10
+n = int(input("Digite a quantidade de números a serem fornecidos: "))
+
+maior_numero = None
+
+contador = 0
+while contador < n:
+    numero = float(input(f"Digite o {contador + 1}º número: "))
+    
+    if maior_numero is None or numero > maior_numero:
+        maior_numero = numero
+    
+    contador += 1
+
+print(f"O maior número informado foi: {maior_numero}")
+
+
+
+
+11
+populacao_a = 90000
+populacao_b = 50000
+
+taxa_crescimento_a = 0.009  # 0,9%
+taxa_crescimento_b = 0.015  # 1,5%
+
+anos = 0
+
+while populacao_b <= populacao_a:
+    populacao_a += populacao_a * taxa_crescimento_a  # Crescimento da cidade A
+    populacao_b += populacao_b * taxa_crescimento_b  # Crescimento da cidade B
+    anos += 1  # Incrementa o contador de anos
+
+print(f"Serão necessários {anos} anos para que a cidade B tenha mais habitantes que a cidade A.")
+
+
+
+
+12
+preco_chocolate = 5.00
+
+quantidade = int(input("Quantos chocolates deseja comprar? "))
+valor_pago = float(input("Informe o valor pago (em cédulas): R$ "))
+
+total_compra = preco_chocolate * quantidade
+troco = valor_pago - total_compra
+
+print(f"Total da compra: R$ {total_compra:.2f}")
+print(f"Troco a ser dado: R$ {troco:.2f}")
+
+if troco < 0:
+    print("Valor insuficiente! O pagamento não cobre o total da compra.")
+else:
+    cedulas = [50, 20, 10, 5, 2]
+    moedas = [1]  # Moedas de R$ 1,00
+
+    for cedula in cedulas:
+        quantidade_cedulas = int(troco // cedula)
+        if quantidade_cedulas > 0:
+            print(f"{quantidade_cedulas} cédula(s) de R$ {cedula}")
+        troco = troco % cedula  # Atualiza o troco com o restante
+
+    if troco >= 1:
+        quantidade_moedas = int(troco // 1)
+        print(f"{quantidade_moedas} moeda(s) de R$ 1,00")
+
+    print("Troco fornecido com sucesso!")
+
+
+
+
+13
+total_itens_dia = 0
+total_vendas_dia = 0.0
+
+while True:
+    quantidade_itens = 0
+    total_compra = 0.0
+    
+    while True:
+        valor_unitario = float(input("Digite o valor unitário do produto (ou um valor <= 0 para encerrar): R$ "))
+        
+        if valor_unitario <= 0:
+            break
+        
+        quantidade_itens += 1
+        total_compra += valor_unitario
+    
+    if total_compra == 0:
+        print("Encerrando o programa...")
+        print(f"Total de itens vendidos no dia: {total_itens_dia}")
+        print(f"Total das vendas no dia (sem descontos): R$ {total_vendas_dia:.2f}")
+        break
+    
+    print(f"Quantidade de itens comprados: {quantidade_itens}")
+    print(f"Total da compra: R$ {total_compra:.2f}")
+    
+    total_itens_dia += quantidade_itens
+    total_vendas_dia += total_compra
+    
+    print("Opções de pagamento:")
+    print("1. Dinheiro")
+    print("2. Cartão Débito")
+    print("3. Cartão Crédito")
+    
+    opcao_pagamento = int(input("Escolha a opção de pagamento (1, 2 ou 3): "))
+    
+    if opcao_pagamento == 1:  # Dinheiro (10% de desconto)
+        desconto = total_compra * 0.10
+        total_a_pagar = total_compra - desconto
+        print(f"Opção de pagamento: Dinheiro")
+        print(f"Percentual de desconto: 10%")
+        print(f"Desconto obtido: R$ {desconto:.2f}")
+        print(f"Total a pagar: R$ {total_a_pagar:.2f}")
+    
+    elif opcao_pagamento == 2:  # Cartão Débito (5% de desconto)
+        desconto = total_compra * 0.05
+        total_a_pagar = total_compra - desconto
+        print(f"Opção de pagamento: Cartão Débito")
+        print(f"Percentual de desconto: 5%")
+        print(f"Desconto obtido: R$ {desconto:.2f}")
+        print(f"Total a pagar: R$ {total_a_pagar:.2f}")
+    
+    elif opcao_pagamento == 3:  # Cartão Crédito (sem desconto)
+        total_a_pagar = total_compra
+        print(f"Opção de pagamento: Cartão Crédito")
+        print(f"Total a pagar: R$ {total_a_pagar:.2f}")
+    
+    else:
+        print("Opção inválida! Por favor, escolha uma opção entre 1, 2 e 3.")
