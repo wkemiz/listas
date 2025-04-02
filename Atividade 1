@@ -1,0 +1,485 @@
+questão 1
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define max 30
+typedef int TipoChave;
+
+typedef struct {
+    TipoChave chave;
+} Registro;
+
+typedef struct {
+    Registro V[max];
+    int N;
+} Lista;
+
+void Iniciar_Lista(Lista *L) {
+    L->N = 0;
+}
+
+int Tamanho(Lista *L) {
+    return L->N;
+}
+
+void Imprimir_Lista(Lista *L) {
+    int i;
+    printf("\n======= Lista =======\n");
+    for (i = 0; i < L->N; i++)
+        printf(" %d ", L->V[i].chave);
+    printf("\n");
+}
+
+int Busca_Sequencial(Lista *L, TipoChave ch) {
+    int i = 0;
+    while (i < L->N) {
+        if (L->V[i].chave == ch)
+            return i;
+        i++;
+    }
+    return -1; 
+}
+
+bool Inserir_Elemento_Lista(Lista *L, Registro r, int i) {
+    int j;
+    if ((L->N == max) || (i < 0) || (i > L->N)) 
+        return false;
+    for (j = L->N; j > i; j--)
+        L->V[j] = L->V[j - 1]; 
+    L->V[i] = r;
+    L->N++;
+    return true;
+}
+
+bool Excluir_Elemento_Lista(Lista *L, TipoChave ch) {
+    int j, pos;
+    pos = Busca_Sequencial(L, ch);
+    if (pos == -1)
+        return false;
+    for (j = pos; j < L->N - 1; j++) 
+        L->V[j] = L->V[j + 1];
+    L->N--;
+    return true;
+}
+
+void Reiniciar_Lista(Lista *L) {
+    L->N = 0;
+}
+
+int BuscarSequencial(int v[], int chave, int n) {
+    for (int i = 0; i < n; i++) {
+        if (v[i] == chave)
+            return i;
+    }
+    return -1;
+}
+
+void InserirSemRepetir(int v[], int *n, int chave, int max) {
+    if (BuscarSequencial(v, chave, *n) == -1 && *n < max) {  
+        v[*n] = chave;
+        (*n)++;
+    } else {
+        printf("Elemento %d já existe na lista ou capacidade máxima atingida!\n", chave);
+    }
+}
+
+void Percorrer(int v[], int n) {
+    printf("\nLista de dados:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", v[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    Lista L;
+    Iniciar_Lista(&L);
+
+    int dados[max], n = 0;
+    int num, op;
+
+    do {
+        printf("\nMenu de opções:\n");
+        printf("1. Inserir elemento\n");
+        printf("2. Imprimir lista\n");
+        printf("3. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &op);
+
+        switch (op) {
+            case 1:
+                printf("Digite o número a ser inserido: ");
+                scanf("%d", &num);
+                InserirSemRepetir(dados, &n, num, max);
+                break;
+
+            case 2:
+                Percorrer(dados, n);
+                break;
+
+            case 3:
+                printf("Saindo...\n");
+                break;
+
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+        }
+
+    } while (op != 3);
+
+    return 0;
+}
+
+
+
+
+questão 2
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX 10  
+typedef int TipoChave;
+
+typedef struct {
+    TipoChave chave;
+} Registro;
+
+typedef struct {
+    Registro V[MAX];  
+    int N;  
+} Lista;
+
+#define inv -1  
+
+
+void Iniciar_Lista(Lista *L) {
+    L->N = 0;  
+}
+
+
+int Tamanho(Lista *L) {
+    return L->N;
+}
+
+
+void Imprimir_Lista(Lista *L) {
+    int i;
+    printf("\n======= Lista =======\n");
+    for (i = 0; i < L->N; i++) {
+        printf(" %d ", L->V[i].chave);
+    }
+    printf("\n");
+}
+
+
+int Busca_Binaria(Lista *L, TipoChave chave) {
+    int inicio = 0, fim = L->N - 1, meio;
+    
+    while (inicio <= fim) {
+        meio = (inicio + fim) / 2;
+        
+        if (L->V[meio].chave == chave)
+            return meio;  // Encontrou o elemento
+        else if (L->V[meio].chave < chave)
+            fim = meio - 1;  
+        else
+            inicio = meio + 1;  
+    }
+    
+    return inv;  
+}
+
+
+bool Inserir_Elemento_Lista(Lista *L, Registro r) {
+    int i, j;
+    
+    
+    if (L->N == MAX)
+        return false;
+
+    
+    for (i = 0; i < L->N; i++) {
+        if (L->V[i].chave < r.chave) {
+            break;
+        }
+    }
+
+    
+    for (j = L->N; j > i; j--) {
+        L->V[j] = L->V[j - 1];
+    }
+    
+    
+    L->V[i] = r;
+    L->N++;  // Atualiza o número de elementos
+    return true;
+}
+
+
+bool Excluir_Elemento_Lista(Lista *L, TipoChave chave) {
+    int pos = Busca_Binaria(L, chave); 
+    if (pos == inv)  // Se não encontrar o valor
+        return false;
+
+    
+    for (int i = pos; i < L->N - 1; i++) {
+        L->V[i] = L->V[i + 1];
+    }
+
+    L->N--;  
+    return true;
+}
+
+
+void Reiniciar_Lista(Lista *L) {
+    L->N = 0;  
+}
+
+int main() {
+    Lista L;
+    Iniciar_Lista(&L);  
+    int op, chave;
+    Registro r;
+
+    do {
+        printf("\nMenu de opções:\n");
+        printf("1. Inserir elemento\n");
+        printf("2. Excluir elemento\n");
+        printf("3. Buscar elemento\n");
+        printf("4. Imprimir lista\n");
+        printf("5. Reiniciar lista\n");
+        printf("6. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &op);
+
+        switch (op) {
+            case 1:  
+                printf("Digite o valor a ser inserido: ");
+                scanf("%d", &chave);
+                r.chave = chave;
+                if (Inserir_Elemento_Lista(&L, r))
+                    printf("Elemento inserido com sucesso!\n");
+                else
+                    printf("Falha ao inserir o elemento! Lista cheia.\n");
+                break;
+
+            case 2:  
+                printf("Digite o valor a ser excluído: ");
+                scanf("%d", &chave);
+                if (Excluir_Elemento_Lista(&L, chave))
+                    printf("Elemento excluído com sucesso!\n");
+                else
+                    printf("Elemento não encontrado!\n");
+                break;
+
+            case 3:  
+                printf("Digite o valor a ser buscado: ");
+                scanf("%d", &chave);
+                if (Busca_Binaria(&L, chave) != inv)
+                    printf("Elemento encontrado!\n");
+                else
+                    printf("Elemento não encontrado!\n");
+                break;
+
+            case 4:  
+                Imprimir_Lista(&L);
+                break;
+
+            case 5:  
+                Reiniciar_Lista(&L);
+                printf("Lista reiniciada!\n");
+                break;
+
+            case 6: 
+                printf("Saindo...\n");
+                break;
+
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+        }
+
+    } while (op != 6);
+
+    return 0;
+}
+
+
+
+
+questão 3
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define MAX 30  
+
+typedef struct {
+    char nome[50];  
+    int conta;      
+    float saldo;    
+} Registro;
+
+typedef struct {
+    Registro V[MAX];  
+    int N;  
+} Lista;
+
+#define inv -1  
+
+void Iniciar_Lista(Lista *L) {
+    L->N = 0;  
+}
+
+int Tamanho(Lista *L) {
+    return L->N;
+}
+
+void Imprimir_Lista(Lista *L) {
+    int i;
+    printf("\n======= Lista de Contas =======\n");
+    for (i = 0; i < L->N; i++) {
+        printf("Conta: %d | Nome: %s | Saldo: %.2f\n", L->V[i].conta, L->V[i].nome, L->V[i].saldo);
+    }
+}
+
+int Busca_Sequencial_Conta(Lista *L, int conta) {
+    for (int i = 0; i < L->N; i++) {
+        if (L->V[i].conta == conta)
+            return i;  
+    }
+    return inv;  
+}
+
+int Busca_Sequencial_Nome(Lista *L, char nome[]) {
+    for (int i = 0; i < L->N; i++) {
+        if (strcmp(L->V[i].nome, nome) == 0)
+            return i;  
+    }
+    return inv;  
+}
+
+bool Inserir_Elemento_Lista(Lista *L, Registro r) {
+    if (L->N == MAX) {
+        printf("Lista cheia!\n");
+        return false;  
+    }
+
+    if (Busca_Sequencial_Conta(L, r.conta) != inv) {
+        printf("Conta já existente!\n");
+        return false;  // Conta já existe
+    }
+
+    L->V[L->N] = r;
+    L->N++;  
+    return true;
+}
+
+bool Excluir_Elemento_Lista(Lista *L, int conta) {
+    int pos = Busca_Sequencial_Conta(L, conta);  
+    if (pos == inv) {  
+        printf("Conta não encontrada, tentando buscar pelo nome...\n");
+        char nome[50];
+        printf("Digite o nome para buscar: ");
+        scanf(" %[^\n]s", nome);
+        pos = Busca_Sequencial_Nome(L, nome);
+    }
+    
+    if (pos == inv) {
+        printf("Elemento não encontrado!\n");
+        return false;  
+    }
+
+    for (int i = pos; i < L->N - 1; i++) {
+        L->V[i] = L->V[i + 1];
+    }
+
+    L->N--;  
+    return true;
+}
+
+void Reiniciar_Lista(Lista *L) {
+    L->N = 0;  
+}
+
+int main() {
+    Lista L;
+    Iniciar_Lista(&L);  
+    int op, conta;
+    Registro r;
+
+    do {
+        printf("\nMenu de opções:\n");
+        printf("1. Inserir elemento\n");
+        printf("2. Excluir elemento\n");
+        printf("3. Buscar elemento\n");
+        printf("4. Imprimir lista\n");
+        printf("5. Reiniciar lista\n");
+        printf("6. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &op);
+
+        switch (op) {
+            case 1:  
+                printf("Digite o número da conta: ");
+                scanf("%d", &r.conta);
+                printf("Digite o nome do cliente: ");
+                scanf(" %[^\n]s", r.nome);
+                printf("Digite o saldo da conta: ");
+                scanf("%f", &r.saldo);
+                if (Inserir_Elemento_Lista(&L, r))
+                    printf("Elemento inserido com sucesso!\n");
+                break;
+
+            case 2:  
+                printf("Digite o número da conta a ser excluída: ");
+                scanf("%d", &conta);
+                if (Excluir_Elemento_Lista(&L, conta))
+                    printf("Elemento excluído com sucesso!\n");
+                break;
+
+            case 3:  
+                printf("Digite o número da conta a ser buscada: ");
+                scanf("%d", &conta);
+                int pos = Busca_Sequencial_Conta(&L, conta);
+                if (pos != inv) {
+                    printf("Conta encontrada!\n");
+                    printf("Conta: %d | Nome: %s | Saldo: %.2f\n", L.V[pos].conta, L.V[pos].nome, L.V[pos].saldo);
+                } else {
+                    printf("Conta não encontrada, buscando pelo nome...\n");
+                    char nome[50];
+                    printf("Digite o nome para buscar: ");
+                    scanf(" %[^\n]s", nome);
+                    pos = Busca_Sequencial_Nome(&L, nome);
+                    if (pos != inv) {
+                        printf("Cliente encontrado!\n");
+                        printf("Conta: %d | Nome: %s | Saldo: %.2f\n", L.V[pos].conta, L.V[pos].nome, L.V[pos].saldo);
+                    } else {
+                        printf("Cliente não encontrado!\n");
+                    }
+                }
+                break;
+
+            case 4:  
+                Imprimir_Lista(&L);
+                break;
+
+            case 5:  
+                Reiniciar_Lista(&L);
+                printf("Lista reiniciada!\n");
+                break;
+
+            case 6:  
+                printf("Saindo...\n");
+                break;
+
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+        }
+
+    } while (op != 6);
+
+    return 0;
+}
